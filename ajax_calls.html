@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Random Quote</title>
+    <title>Ajax Calls</title>
     <meta charset="UTF-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
 
   <body>
-    <button>Get Random Quote</button>
+  <!--ajax calls to free third party APIs. -->
+    <button id="button1">Get Random Quote</button>
     <div id="quote"></div>
+	<br>
+	<button id="button2">Show image of the day</button>
+	<br>
+	<img id="image1" src="" style="width:30%; height:auto; display:none; display: block; margin-left: auto; margin-right: auto;"/>
     <script>
       $(function () {
-        $("button").click(function () {
+        $("#button1").click(function () {
           $("#quote").fadeOut(1000, function () {
             $.ajax({
               url: "https://api.quotable.io/random",
@@ -20,10 +25,19 @@
             });
           });
         });
+		$("#button2").click(function () {
+          $("#image1").fadeOut(1000, function () {
+            $.ajax({
+              url: "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY",
+              type: "GET",
+              success: showImage
+            });
+          });
+        });
       });
 
       function showResponse(response) {
-        // $("#quote").text(response);
+        // $("#image1").text(response);
         // $("#quote").text(JSON.stringify(response));
         // console.log(response);
       }
@@ -34,6 +48,12 @@
         // $("#quote").text(response);
         // $("#quote").text(JSON.stringify(response));
         // console.log(response);
+      }
+	  function showImage(response) {
+        $("#image1").attr("src",response.url).show();
+		
+        $("#image1").fadeIn(1000);
+        
       }
     </script>
   </body>
