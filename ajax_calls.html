@@ -11,10 +11,14 @@
     <button id="button1">Get Random Quote</button>
     <div id="quote"></div>
 	<br>
+	<button id="jokebutton">Get Random Joke</button>
+    <div id="joke"></div>
+	<br>
 	<button id="button2">Show image of the day</button>
 	<br>
 	<img id="image1" src="" style="width:30%; height:auto; display:none; display: block; margin-left: auto; margin-right: auto;"/>
     <script>
+	// the actual Ajax calls
       $(function () {
         $("#button1").click(function () {
           $("#quote").fadeOut(1000, function () {
@@ -34,8 +38,18 @@
             });
           });
         });
+		$("#jokebutton").click(function () {
+          $("#joke").fadeOut(1000, function () {
+            $.ajax({
+              url: "http://api.icndb.com/jokes/random",
+              type: "GET",
+              success: showJoke
+            });
+          });
+        });
       });
 
+	// functions for showing the responses
       function showResponse(response) {
         // $("#image1").text(response);
         // $("#quote").text(JSON.stringify(response));
@@ -53,6 +67,11 @@
         $("#image1").attr("src",response.url).show();
 		
         $("#image1").fadeIn(1000);
+        
+      }
+	  function showJoke(response) {
+        $("#joke").text(response.value.joke);
+        $("#joke").fadeIn(1000);
         
       }
     </script>
