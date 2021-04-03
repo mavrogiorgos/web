@@ -17,6 +17,12 @@
 	<button id="button2">Show image of the day</button>
 	<br>
 	<img id="image1" src="" style="width:30%; height:auto; display:none; display: block; margin-left: auto; margin-right: auto;"/>
+	<br>
+	<label for="artist">Artist:</label><input id="artist" type="text"/> 
+	<label for="song">Song:</label><input id="song" type="text"/>
+    <button onclick="getLyrics()">Get Lyrics</button>
+	<div id="lyrics"></div>
+    <br />
     <script>
 	// the actual Ajax calls
       $(function () {
@@ -48,6 +54,24 @@
           });
         });
       });
+	  
+	  function getLyrics() {
+        let artist = $("#artist").val();
+		let song = $("#song").val();
+		console.log(song);
+		// https://api.lyrics.ovh/v1/ -> doesn't work yet
+        $.get("https://private-anon-cf2875e21f-lyricsovh.apiary-mock.com/v1/"+artist+"/"+song)
+          .done(function (response) {
+            console.log(response);
+            let lyrics = response.lyrics;
+            let song_lyrics = $("<div></div>");
+            song_lyrics.text(lyrics);
+            $("#lyrics").html(song_lyrics);
+          })
+          .fail(function (response) {
+            console.error(response.status, response.responseText);
+          });
+      }
 
 	// functions for showing the responses
       function showResponse(response) {
