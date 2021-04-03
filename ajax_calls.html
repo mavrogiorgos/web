@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random Quote</title>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <button>Get Random Quote</button>
+    <div id="quote"></div>
+    <script>
+      $(function () {
+        $("button").click(function () {
+          $("#quote").fadeOut(1000, function () {
+            $.ajax({
+              url: "https://api.quotable.io/random",
+              type: "GET",
+              success: showQuote
+            });
+          });
+        });
+      });
+
+      function showResponse(response) {
+        // $("#quote").text(response);
+        // $("#quote").text(JSON.stringify(response));
+        // console.log(response);
+      }
+      function showQuote(response) {
+        $("#quote").text(response.content);
+        $("#quote").append("<br>Author: " + response.author);
+        $("#quote").fadeIn(1000);
+        // $("#quote").text(response);
+        // $("#quote").text(JSON.stringify(response));
+        // console.log(response);
+      }
+    </script>
+  </body>
+</html>
